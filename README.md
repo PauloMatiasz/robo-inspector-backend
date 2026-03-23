@@ -9,27 +9,31 @@ Telemetria: posição X/Y, bateria, status da lanterna
 Streaming de vídeo via RTSP
 Configurações via .env
 Testes unitários com pytest
+
 🔹 Estrutura do Projeto
 backend/
- ├─ app.py                 # Ponto de entrada do Flask
- ├─ controllers/           # Blueprints (robo, camera)
+ ├─ app.py                 
+ ├─ controllers/           
  │   ├─ robo_controller.py
  │   └─ camera_controller.py
- ├─ services/              # Lógica de negócio
+ ├─ services/              
  │   ├─ robo_service.py
  │   └─ camera_service.py
- ├─ tests/                 # Testes unitários
+ ├─ tests/                 
  │   ├─ test_robo.py
  │   └─ test_camera_controller.py
- ├─ requirements.txt       # Dependências do projeto
- └─ .env                   # Variáveis de ambiente
+ ├─ requirements.txt       
+ └─ .env                   
+ 
 🔹 Variáveis de Ambiente (.env)
+
 ESP32_IP=192.168.4.1
 CAMERA_RTSP=rtsp://admin:CameraNVR2025@192.168.1.103:554/onvif1
 FLASK_ENV=development
 FLASK_PORT=5000
 DEBUG=True
 CORS_ORIGINS=http://localhost:3000
+
 🔹 Instalação
 Criar e ativar virtualenv:
 python -m venv .venv
@@ -37,12 +41,16 @@ python -m venv .venv
 .venv\Scripts\activate
 # Linux/Mac
 source .venv/bin/activate
+
 Instalar dependências:
 pip install -r requirements.txt
+
 🔹 Rodando o Backend
+
 python app.py
 O backend roda na porta definida em FLASK_PORT (default: 5000)
 CORS configurado para permitir chamadas do React (CORS_ORIGINS)
+
 🔹 Testes Unitários
 
 Rodar todos os testes:
