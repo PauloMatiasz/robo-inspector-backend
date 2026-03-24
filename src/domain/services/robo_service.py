@@ -9,6 +9,7 @@ def mover(direcao):
             f"http://{ESP32_IP}/command?cmd={direcao}",
             timeout=2
         )
+        
         return response.status_code
     except:
         #interessante voce logar isso, adiconar prints no app para saber onde seu app esta passando e o que esta fazendo, para facilitar o debug, principalmente quando for rodar o backend e o esp32 juntos, para saber se o backend esta conseguindo se comunicar com o esp32 ou se esta dando timeout, etc...
