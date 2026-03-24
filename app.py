@@ -3,6 +3,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
+#aqui voce inicia as rotas com o init routes la do seu api.py
+
 load_dotenv()
 
 app = Flask(__name__)

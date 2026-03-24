@@ -1,6 +1,7 @@
 import cv2
 import os
 
+
 RTSP_URL = os.getenv("CAMERA_RTSP", "rtsp://admin:CameraNVR2025@192.168.1.103:554/onvif1")
 
 # Inicializa a câmera só se necessário

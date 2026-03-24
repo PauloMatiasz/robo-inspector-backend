@@ -1,0 +1,1 @@
+#implementar doc swagger com flasgger, faz um dicionario aqui da docs, pode gerar com gpt, e la na rota voce importa com o @swag_from, lembra de fazer um headers config e configurar o swagger la no app.py

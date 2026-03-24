@@ -1,0 +1,1 @@
+#aqui voce pode centralizar suas rotas em uma fuuncao init_routes() e chamar essa funcao no main.py para registrar as rotas na aplicacao.
