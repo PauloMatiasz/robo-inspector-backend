@@ -1,26 +1,59 @@
 import pytest
-from flask import Flask
+from flask import Flask, jsonify
 from unittest.mock import patch
-from controllers.camera_controller import camera_bp
+from src.controllers.robo_controller import RoboController
 
 @pytest.fixture
 def client():
     app = Flask(__name__)
-    app.register_blueprint(camera_bp)
+    robo_controller = RoboController()
+
+    @app.route("/mover", methods=["POST"])
+    def mover_robo_route():
+        return robo_controller.mover()
+
     with app.test_client() as client:
         yield client
 
 
-@patch("controllers.camera_controller.gerar_frames")
-def test_video(mock_gerar_frames, client):
-    mock_gerar_frames.return_value = iter([b'frame1', b'frame2'])
-    res = client.get("/video")
-    assert res.status_code == 200
-    assert res.mimetype == "multipart/x-mixed-replace"
+# ✅ sucesso
+@patch.object(RoboController, "mover")
+def test_mover_robo_sucesso(mock_mover, client):
+    mock_mover.return_value = ({
+        "status": "success",
+        "data": {"codigo": 123}
+    }), 200
 
-@patch("controllers.camera_controller.processar_dado")
-def test_receber(mock_processar_dado, client):
-    mock_processar_dado.return_value = {"status": "ok", "valor": 123}
-    res = client.post("/api/dados", json={"valor": 123})
+    payload = {"direcao": "frente"}
+    res = client.post("/mover", json=payload)
+
     assert res.status_code == 200
-    assert res.get_json() == {"status": "ok", "valor": 123}
+    data = res.get_json()
+    assert data["status"] == "success"
+    assert "codigo" in data["data"]
+
+
+# ✅ validação (não precisa mock)
+def test_mover_robo_falta_campo(client):
+    res = client.post("/mover", json={})
+    assert res.status_code == 400
+    data = res.get_json()
+    assert data["status"] == "error"
+    assert "Campo 'direcao'" in data["message"]
+
+
+# ✅ erro backend
+@patch.object(RoboController, "mover")
+def test_mover_robo_erro_backend(mock_mover, client):
+    mock_mover.return_value = ({
+        "status": "error",
+        "message": "Falha ao mover robô"
+    }), 500
+
+    payload = {"direcao": "tras"}
+    res = client.post("/mover", json=payload)
+
+    assert res.status_code == 500
+    data = res.get_json()
+    assert data["status"] == "error"
+    assert "Falha ao mover robô" in data["message"]

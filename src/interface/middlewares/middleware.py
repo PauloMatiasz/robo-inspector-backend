@@ -1,5 +1,21 @@
-#se precisar de algo coloque aqui sobre middleware
-#Middleware e uma funcao que executa sempre antes ou depois de uma chamada, voce pode usar para validar o request, para logar as requisicoes, para tratar erros, etc...
-#Voce pode criar middlewares para validar o request, por exemplo, para verificar se o token de autenticacao esta presente e valido, para verificar se os dados obrigatorios do request estao presentes, para verificar se os dados estao no formato correto, etc...
-#Voce pode criar middlewares para logar as requisicoes, por exemplo, para logar o endpoint chamado, o metodo HTTP, o status code da resposta, etc...
-#Voce pode criar middlewares para tratar erros, por exemplo, para capturar excecoes e retornar uma resposta padronizada de erro, para logar o erro, etc...
+from flask import request
+import time
+
+
+def register_middlewares(app):
+
+    @app.before_request
+    def log_request():
+        request.start_time = time.time()
+        print(f"[REQ] {request.method} {request.path}")
+
+    @app.after_request
+    def log_response(response):
+        duration = time.time() - request.start_time
+        print(f"[RES] {response.status_code} - {duration:.3f}s")
+        return response
+
+    @app.errorhandler(Exception)
+    def handle_error(e):
+        print(f"[ERROR] {str(e)}")
+        return {"erro": "Erro interno no servidor"}, 500

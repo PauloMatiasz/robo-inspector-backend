@@ -1,1 +1,31 @@
-#implementar doc swagger com flasgger, faz um dicionario aqui da docs, pode gerar com gpt, e la na rota voce importa com o @swag_from, lembra de fazer um headers config e configurar o swagger la no app.py
+mover_doc = {
+    "tags": ["Robô"],
+    "parameters": [
+        {
+            "name": "body",
+            "in": "body",
+            "required": True,
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "direcao": {
+                        "type": "string",
+                        "example": "frente"
+                    }
+                },
+                "required": ["direcao"]
+            }
+        }
+    ],
+    "responses": {
+        200: {
+            "description": "Movimento executado com sucesso"
+        },
+        400: {
+            "description": "Falta de direção no sistema "
+        },
+        500: {
+            "description": "Robô nao esta comunicando com o sistema "
+        }
+    }
+}

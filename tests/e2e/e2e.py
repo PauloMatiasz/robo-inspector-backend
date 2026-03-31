@@ -1,3 +1,0 @@
-#Aqui voce testa o app end to end = 2e2.
-#Aqui voce testa desde a rota ate o retorno da resposta, ou seja, voce pode usar a biblioteca requests para fazer uma requisicao para a rota e verificar se o retorno esta correto, se o status code esta correto, etc...
-#Voce pode usar o pytest para isso, criando uma funcao de teste para cada rota, e usando o requests para fazer a requisicao e verificar o retorno.
