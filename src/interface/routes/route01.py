@@ -1,8 +1,6 @@
 from flask import Blueprint
-from flasgger import swag_from
 from src.controllers.robo_controller import RoboController
 from src.controllers.camera_controller import CameraController
-from src.docs.swagger.docs import mover_doc
 
 bp = Blueprint("route01", __name__)
 
@@ -10,24 +8,61 @@ robo_controller = RoboController()
 camera_controller = CameraController()
 
 
-@bp.route("/mover", methods=["POST"])
-@swag_from(mover_doc)
-def mover_robo():
-    return robo_controller.mover()
+# ROTAS DO ROBÔ (sem body, direto pro front)
 
-
-@bp.route("/video", methods=["GET"])
-def video():
+@bp.route("/direita", methods=["POST"])
+def direita():
     """
-    Retorna a URL do stream de vídeo
+    Move o robô para a direita
     ---
     tags:
-      - Câmera
+      - Robô
     responses:
       200:
-        description: URL do stream obtida com sucesso
+        description: Movimento executado com sucesso
     """
-    return camera_controller.video()
+    return robo_controller.mover("direita")
+
+
+@bp.route("/esquerda", methods=["POST"])
+def esquerda():
+    """
+    Move o robô para a esquerda
+    ---
+    tags:
+      - Robô
+    responses:
+      200:
+        description: Movimento executado com sucesso
+    """
+    return robo_controller.mover("esquerda")
+
+
+@bp.route("/frente", methods=["POST"])
+def frente():
+    """
+    Move o robô para frente
+    ---
+    tags:
+      - Robô
+    responses:
+      200:
+        description: Movimento executado com sucesso
+    """
+    return robo_controller.mover("frente")
+
+@bp.route("/tras", methods=["POST"])
+def tras():
+    """
+    Move o robô para trás
+    ---
+    tags:
+      - Robô
+    responses:
+      200:
+        description: Movimento executado com sucesso
+    """
+    return robo_controller.mover("tras")
 
 
 @bp.route("/processar", methods=["POST"])

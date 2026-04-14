@@ -17,16 +17,12 @@ app.config['SWAGGER'] = {
 
 Swagger(app)
 
-# Configura CORS
 CORS(app, origins=os.getenv("CORS_ORIGINS", "*"))
 
-# Registra middlewares
 register_middlewares(app)
 
-# Inicializa rotas
 init_routes(app)
 
-# Rota raiz
 @app.route("/")
 def index():
     return {"mensagem": "API Rodando!"}
